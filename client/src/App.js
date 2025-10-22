@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { v4 as uuidv4 } from "uuid";
 import FileExplorer from "./components/FileExplorer";
 import Editor from "./components/Editor";
 import Navbar from "./components/Navbar";
@@ -17,12 +16,14 @@ function App() {
   const [isAutosave, setIsAutosave] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
+  const [projectId, setProjectId] = useState(null);
 
-  // Autosave
+  // Autosave (optional, keeps localStorage)
   useEffect(() => {
     if (isAutosave) localStorage.setItem("autosaveFiles", JSON.stringify(files));
   }, [files, isAutosave]);
 
+  // --- File operations ---
   const addFile = () => {
     const name = prompt("Enter file name:");
     if (name && !files[name]) {
@@ -49,19 +50,31 @@ function App() {
     setCurrentFile(Object.keys(updated)[0] || "");
   };
 
-  const saveHandler = () => {
-    const id = uuidv4();
-    saveProject(id, files);
-    alert("Project saved! ID: " + id);
+  // --- Backend integration via storage.js ---
+  const saveHandler = async () => {
+    if (!files) return;
+    const id = projectId || null;
+    const data = await saveProject(id, files);
+    setProjectId(data._id);
+    alert("Project saved! ID: " + data._id);
   };
 
-  const loadHandler = () => {
+  const loadHandler = async () => {
     const id = prompt("Enter Project ID:");
-    const data = loadProject(id);
+    if (!id) return;
+    const data = await loadProject(id);
     if (data) {
-      setFiles(data);
-      setCurrentFile(Object.keys(data)[0]);
-    } else alert("Invalid Project ID");
+      setFiles(data.files);
+      setCurrentFile(Object.keys(data.files)[0]);
+      setProjectId(data._id);
+      alert("Project loaded successfully");
+    } else alert("Project not found");
+  };
+
+  const updateHandler = async () => {
+    if (!projectId) return alert("No project loaded");
+    const data = await saveProject(projectId, files);
+    alert("Project updated!");
   };
 
   if (!isLoggedIn) {
@@ -79,38 +92,40 @@ function App() {
         setTheme={setTheme}
         onSave={saveHandler}
         onLoad={loadHandler}
+        onUpdate={updateHandler}
         isAutosave={isAutosave}
         setIsAutosave={setIsAutosave}
         setIsLoggedIn={setIsLoggedIn}
       />
-      <div className="main-area">
-  {/* Logout button */}
-  <div style={{ textAlign: "right", padding: "10px" }}>
-    <button
-      onClick={() => setIsLoggedIn(false)}
-      style={{
-        padding: "8px 15px",
-        backgroundColor: "#ff4d4f",
-        color: "white",
-        border: "none",
-        borderRadius: "5px",
-        cursor: "pointer",
-      }}
-    >
-      Logout
-    </button>
-  </div>
 
-  <FileExplorer
-    files={files}
-    currentFile={currentFile}
-    setCurrentFile={setCurrentFile}
-    addFile={addFile}
-    deleteFile={deleteFile}
-    renameFile={renameFile}
-  />
-  <Editor currentFile={currentFile} files={files} />
-</div>
+      <div className="main-area">
+        {/* Logout button */}
+        <div style={{ textAlign: "right", padding: "10px" }}>
+          <button
+            onClick={() => setIsLoggedIn(false)}
+            style={{
+              padding: "8px 15px",
+              backgroundColor: "#ff4d4f",
+              color: "white",
+              border: "none",
+              borderRadius: "5px",
+              cursor: "pointer",
+            }}
+          >
+            Logout
+          </button>
+        </div>
+
+        <FileExplorer
+          files={files}
+          currentFile={currentFile}
+          setCurrentFile={setCurrentFile}
+          addFile={addFile}
+          deleteFile={deleteFile}
+          renameFile={renameFile}
+        />
+        <Editor currentFile={currentFile} files={files} />
+      </div>
     </div>
   );
 }

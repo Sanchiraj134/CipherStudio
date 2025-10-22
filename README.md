@@ -1,70 +1,83 @@
-# Getting Started with Create React App
+# CipherStudio
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+CipherStudio is a full-stack web-based code editor (IDE) built with **React.js** on the frontend and **Node.js + Express + MongoDB** on the backend. It allows users to create, edit, save, load, and manage JavaScript files and projects online.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 🚀 Features
 
-### `npm start`
+- User authentication: Login and registration.
+- Create, rename, and delete code files.
+- Save projects to backend (MongoDB) and load them anytime.
+- Update existing projects seamlessly.
+- Autosave functionality for local backups.
+- Theme toggle: Light/Dark mode.
+- Logout functionality.
+- Responsive and intuitive UI with file explorer and code editor.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🗂 Project Structure
 
-### `npm test`
+cipherstudio/
+├── backend/ # Node.js + Express backend
+│ ├── models/ # MongoDB models
+│ │ └── Project.js
+│ ├── routes/ # API routes
+│ │ └── projects.js
+│ ├── server.js # Express server entry point
+│ ├── package.json
+│ ├── package-lock.json
+│ ├── node_modules/
+│ └── .env # MongoDB URI and PORT
+│
+├── client/ # React frontend
+│ ├── public/
+│ ├── src/
+│ │ ├── components/ # Navbar, Editor, FileExplorer, etc.
+│ │ ├── pages/ # Login & Register pages
+│ │ ├── utils/ # storage.js for backend API calls
+│ │ ├── App.js
+│ │ ├── index.js
+│ │ └── App.css
+│ ├── package.json
+│ ├── package-lock.json
+│ └── node_modules/
+│
+├── .gitignore
+└── README.md
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Frontend will run at http://localhost:3000
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Backend API runs at http://localhost:5000
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+## 🖥 Usage
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Open the app in your browser.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Register or login.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Create new files or edit existing files.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Use Save to store your project in MongoDB.
 
-## Learn More
+Load a project by entering its ID.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Update an existing project.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Toggle autosave or theme as needed.
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## 📌 Notes
 
-### Analyzing the Bundle Size
+MongoDB Atlas is used as the database.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Autosave stores files locally as a fallback.
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+The project is designed as a full-stack React + Node.js application.
